@@ -95,4 +95,30 @@ foreach ($dll in $dlls.Keys) {
     dotnet sln $solutionFile add $projectFile
 }
 
+# Create the main Riverside.Win32 project
+$mainProjectName = "Riverside.Win32"
+$mainProjectDir = Join-Path $WorkingDirectory $mainProjectName
+$mainProjectFile = Join-Path $mainProjectDir "$mainProjectName.csproj"
+
+if (-not (Test-Path $mainProjectDir)) {
+    New-Item -ItemType Directory -Path $mainProjectDir | Out-Null
+}
+
+# Add main project .csproj content
+$mainCsprojContent = @"
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IncludeSymbols>false</IncludeSymbols>
+    <NoWarn>`$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Riverside.Win32.*\*.csproj" />
+  </ItemGroup>
+</Project>
+"@
+$mainCsprojContent | Set-Content -Path $mainProjectFile
+
+dotnet sln $solutionFile add $mainProjectFile
+
 Write-Host "Solution and projects have been successfully created in $WorkingDirectory."
