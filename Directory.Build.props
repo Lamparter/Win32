@@ -1,0 +1,78 @@
+<Project>
+
+	<!-- Generic properties -->
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+
+		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+		<LangVersion>12.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<!-- Versioning -->
+	<PropertyGroup>
+		<Product>P/Invoke for .NET Standard</Product>
+		<Company>Riverside Valley Corporation</Company>
+
+		<MajorVersion>1</MajorVersion>
+		<MinorVersion>0</MinorVersion>
+
+		<AssemblyVersion>$(MajorVersion).$(MinorVersion)</AssemblyVersion>
+
+		<CurrentYear>$([System.DateTime]::Now.ToString("yy"))</CurrentYear>
+		<CurrentMonth>$([System.DateTime]::Now.ToString("MM"))</CurrentMonth>
+		<CurrentDay>$([System.DateTime]::Now.ToString("dd"))</CurrentDay>
+		<BuildDate>$(CurrentYear)$(CurrentMonth)$(CurrentDay)</BuildDate>
+
+		<Version>$(MajorVersion).$(MinorVersion).$(BuildDate)</Version>
+	</PropertyGroup>
+
+	<!-- Package properties -->
+	<PropertyGroup>    
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>$(Product)</Title>
+		<Authors>Riverside, Lamparter</Authors>
+		<Company>Riverside Valley Corporation</Company>
+		<Copyright>Copyright (c) Lamparter</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Lamparter/Win32</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>pinvoke; dotnet; riverside</PackageTags>
+		<Description>Win32 P/Invoke bindings for .NET Standard</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		<PackageIcon>PackageLogo.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)\.github\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)\.github\PackageLogo.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<!-- Package references -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Win32.Registry" Version="*" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
+			<PrivateAssets>all</PrivateAssets>
+  			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Memory" Version="*" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="*" />
+	</ItemGroup>
+</Project>
