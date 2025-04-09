@@ -36,6 +36,11 @@ $dlls = @{
     "newdev" = "NewDevice";
     "userenv" = "UserEnvironment";
     "wtsapi32" = "RemoteDesktop";
+    "d3d9" = "DirectX.Direct3D.9";
+    "d3d10" = "DirectX.Direct3D.10";
+    "d3d10_1" = "DirectX.Direct3D.10.1";
+    "d3d11" = "DirectX.Direct3D.11";
+    "d3d12" = "DirectX.Direct3D.12";
 }
 
 $solutionName = "Riverside.Win32"
