@@ -43,7 +43,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Lamparter/Win32</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>pinvoke; dotnet; riverside</PackageTags>
+		<PackageTags>pinvoke; dotnet; cswin32; riverside</PackageTags>
 		<Description>Win32 P/Invoke bindings for .NET Standard</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
