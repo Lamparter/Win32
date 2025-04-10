@@ -1,103 +1,103 @@
 param(
-    [string]$WorkingDirectory = "src"
+	[string]$WorkingDirectory = "src"
 )
 
 if (Test-Path $WorkingDirectory) {
-    Remove-Item -Path $WorkingDirectory -Recurse -Force
+	Remove-Item -Path $WorkingDirectory -Recurse -Force
 }
 
 # Dictionary of DLLs with 'pretty' names
 $dlls = @{
-    "user32"   = "UserInterface";
-    "gdi32"    = "Graphics";
-    "kernel32" = "Kernel";
-    "advapi32" = "Advanced";
-    "shell32"  = "Shell";
-    "bcrypt"  = "Cryptography.BCrypt";
-    "ncrypt"  = "Cryptography.NCrypt";
-    "crypt32" = "Cryptography.Legacy";
-    "cabinet" = "Cabinet";
-    "cfgmgr32" = "Hardware";
-    "uxtheme" = "Themes";
-    "ole32"   = "ObjectLinking";
-    "winusb" = "Usb";
-    "setupapi" = "Setup";
-    "msi" = "Installer";
-    "magnification" = "Magnification";
-    "ntdll" = "NewTechnology";
-    "psapi" = "Process";
-    "hid" = "Usb.HumanInterface";
-    "dwmapi" = "Desktop";
-    "mscoree" = "NETFramework";
-    "netapi32" = "Network";
-    "dbghelp" = "Debugging";
-    "imagehlp" = "PEImage";
-    "iphlpapi" = "Network.IPHelper";
-    "newdev" = "NewDevice";
-    "userenv" = "UserEnvironment";
-    "wtsapi32" = "RemoteDesktop";
-    "d3d9" = "DirectX.Direct3D.9";
-    "d3d10" = "DirectX.Direct3D.10";
-    "d3d10_1" = "DirectX.Direct3D.10.1";
-    "d3d11" = "DirectX.Direct3D.11";
-    "d3d12" = "DirectX.Direct3D.12";
+	"user32" = "UserInterface";
+	"gdi32"	= "Graphics";
+	"kernel32" = "Kernel";
+	"advapi32" = "Advanced";
+	"shell32" = "Shell";
+	"bcrypt" = "Cryptography.BCrypt";
+	"ncrypt" = "Cryptography.NCrypt";
+	"crypt32" = "Cryptography.Legacy";
+	"cabinet" = "Cabinet";
+	"cfgmgr32" = "Hardware";
+	"uxtheme" = "Themes";
+	"ole32" = "ObjectLinking";
+	"winusb" = "Usb";
+	"setupapi" = "Setup";
+	"msi" = "Installer";
+	"magnification" = "Magnification";
+	"ntdll" = "NewTechnology";
+	"psapi" = "Process";
+	"hid" = "Usb.HumanInterface";
+	"dwmapi" = "Desktop";
+	"mscoree" = "NETFramework";
+	"netapi32" = "Network";
+	"dbghelp" = "Debugging";
+	"imagehlp" = "PEImage";
+	"iphlpapi" = "Network.IPHelper";
+	"newdev" = "NewDevice";
+	"userenv" = "UserEnvironment";
+	"wtsapi32" = "RemoteDesktop";
+	"d3d9" = "DirectX.Direct3D.9";
+	"d3d10" = "DirectX.Direct3D.10";
+	"d3d10_1" = "DirectX.Direct3D.10.1";
+	"d3d11" = "DirectX.Direct3D.11";
+	"d3d12" = "DirectX.Direct3D.12";
 }
 
 $solutionName = "Riverside.Win32"
 $solutionFile = Join-Path $WorkingDirectory "$solutionName.sln"
 
 if (-not (Test-Path $WorkingDirectory)) {
-    New-Item -ItemType Directory -Path $WorkingDirectory | Out-Null
+	New-Item -ItemType Directory -Path $WorkingDirectory | Out-Null
 }
 
 dotnet new sln -n $solutionName -o $WorkingDirectory
 
 foreach ($dll in $dlls.Keys) {
-    $prettyName = $dlls[$dll]
-    $projectName = "$solutionName.$prettyName"
-    $projectDir = Join-Path $WorkingDirectory $projectName
-    $projectFile = Join-Path $projectDir "$projectName.csproj"
-    $nativeMethodsFile = Join-Path $projectDir "NativeMethods.txt"
-    $nativeMethodsConfigFile = Join-Path $projectDir "NativeMethods.json"
+	$prettyName = $dlls[$dll]
+	$projectName = "$solutionName.$prettyName"
+	$projectDir = Join-Path $WorkingDirectory $projectName
+	$projectFile = Join-Path $projectDir "$projectName.csproj"
+	$nativeMethodsFile = Join-Path $projectDir "NativeMethods.txt"
+	$nativeMethodsConfigFile = Join-Path $projectDir "NativeMethods.json"
 
-    if (-not (Test-Path $projectDir)) {
-        New-Item -ItemType Directory -Path $projectDir | Out-Null
-    }
+	if (-not (Test-Path $projectDir)) {
+		New-Item -ItemType Directory -Path $projectDir | Out-Null
+	}
 
-    # Generate project file
-    dotnet new classlib -n $projectName -o $projectDir
-    Remove-Item (Join-Path $projectDir "Class1.cs") -Force
+	# Generate project file
+	dotnet new classlib -n $projectName -o $projectDir
+	Remove-Item (Join-Path $projectDir "Class1.cs") -Force
 
-    # Add .csproj content
-    $csprojContent = @"
+	# Add .csproj content
+	$csprojContent = @"
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
-    </PropertyGroup>
+	<PropertyGroup>
+		<Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
+	</PropertyGroup>
 </Project>
 "@
-    $csprojContent | Set-Content -Path $projectFile
+	$csprojContent | Set-Content -Path $projectFile
 
-    # NativeMethods.txt
-    $nativeMethodsContent = "$dll.*"
-    $nativeMethodsContent | Set-Content -Path $nativeMethodsFile
-    
-    # NativeMethods.json
-    $nativeMethodsConfigContent = @"
+	# NativeMethods.txt
+	$nativeMethodsContent = "$dll.*"
+	$nativeMethodsContent | Set-Content -Path $nativeMethodsFile
+	
+	# NativeMethods.json
+	$nativeMethodsConfigContent = @"
 {
-    "$schema": "https://aka.ms/CsWin32.schema.json",
-    "allowMarshaling": false,
-    "public": true,
-    "comInterop": {
-        "preserveSigMethods": [
-            "*"
-        ]
-    }
+	"$schema": "https://aka.ms/CsWin32.schema.json",
+	"allowMarshaling": false,
+	"public": true,
+	"comInterop": {
+		"preserveSigMethods": [
+			"*"
+		]
+	}
 }
 "@
-    $nativeMethodsConfigContent | Set-Content -Path $nativeMethodsConfigFile
+	$nativeMethodsConfigContent | Set-Content -Path $nativeMethodsConfigFile
 
-    dotnet sln $solutionFile add $projectFile
+	dotnet sln $solutionFile add $projectFile
 }
 
 # Create the main Riverside.Win32 project
@@ -106,20 +106,20 @@ $mainProjectDir = Join-Path $WorkingDirectory $mainProjectName
 $mainProjectFile = Join-Path $mainProjectDir "$mainProjectName.csproj"
 
 if (-not (Test-Path $mainProjectDir)) {
-    New-Item -ItemType Directory -Path $mainProjectDir | Out-Null
+	New-Item -ItemType Directory -Path $mainProjectDir | Out-Null
 }
 
 # Add main project .csproj content
 $mainCsprojContent = @"
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <IncludeSymbols>false</IncludeSymbols>
-    <NoWarn>`$(NoWarn);NU5128</NoWarn>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Riverside.Win32.*\*.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<IncludeSymbols>false</IncludeSymbols>
+		<NoWarn>`$(NoWarn);NU5128</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Riverside.Win32.*\*.csproj" />
+	</ItemGroup>
 </Project>
 "@
 $mainCsprojContent | Set-Content -Path $mainProjectFile
