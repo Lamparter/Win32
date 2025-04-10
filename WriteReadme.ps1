@@ -44,7 +44,7 @@ It uses custom PowerShell scripts and MSBuild tasks to build libraries, and is a
 You can then use the packages just as you would with CsWin32, but installing the correct package (relevant to the link library) to get the correct information.
 
 $tableHeader
-| ``Riverside.Win32`` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32)](https://nuget.org/packages/Riverside.Win32) | N/A |
+| ``Riverside.Win32`` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32)](https://nuget.org/packages/Riverside.Win32) | <kbd>*</kbd> |
 $tableRows
 "@
 } else {

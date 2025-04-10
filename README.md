@@ -9,7 +9,7 @@ You can then use the packages just as you would with CsWin32, but installing the
 
 | Package | Latest | Associated DLL |
 |--------|--------|--------|
-| `Riverside.Win32` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32)](https://nuget.org/packages/Riverside.Win32) | N/A |
+| `Riverside.Win32` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32)](https://nuget.org/packages/Riverside.Win32) | <kbd>*</kbd> |
 | `Riverside.Win32.Usb.HumanInterface` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.Usb.HumanInterface)](https://nuget.org/packages/Riverside.Win32.Usb.HumanInterface) | <kbd>hid.dll</kbd> |
 | `Riverside.Win32.DirectX.Direct3D.12` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.DirectX.Direct3D.12)](https://nuget.org/packages/Riverside.Win32.DirectX.Direct3D.12) | <kbd>d3d12.dll</kbd> |
 | `Riverside.Win32.Setup` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.Setup)](https://nuget.org/packages/Riverside.Win32.Setup) | <kbd>setupapi.dll</kbd> |
