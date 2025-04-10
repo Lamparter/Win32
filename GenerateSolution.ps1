@@ -50,6 +50,8 @@ if (-not (Test-Path $WorkingDirectory)) {
 	New-Item -ItemType Directory -Path $WorkingDirectory | Out-Null
 }
 
+.\WriteReadme.ps1 -IsGithub -DllDictionary $dlls
+
 dotnet new sln -n $solutionName -o $WorkingDirectory
 
 foreach ($dll in $dlls.Keys) {
