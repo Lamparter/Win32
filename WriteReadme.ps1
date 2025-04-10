@@ -30,7 +30,7 @@ This library is the successor to the [PInvoke.NET](https://www.nuget.org/package
     $tableHeader = "| Package | Latest | Associated DLL |`n|--------|--------|--------|"
     $tableRows = foreach ($key in $DllDictionary.Keys) {
         $value = $DllDictionary[$key]
-        "| `Riverside.Win32.$value` | ![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.$value) | ``$key.dll`` |"
+        "| `Riverside.Win32.$value` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.$value)](https://nuget.org/packages/Riverside.Win32.$value) | ``$key.dll`` |"
     }
     $tableRows = $tableRows -join "`n"
     $readmeContent = @"
