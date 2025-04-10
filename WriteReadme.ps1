@@ -30,7 +30,7 @@ This library is the successor to the [PInvoke.NET](https://www.nuget.org/package
     $tableHeader = "| Package | Latest | Associated DLL |`n|--------|--------|--------|"
     $tableRows = foreach ($key in $DllDictionary.Keys) {
         $value = $DllDictionary[$key]
-        "| `Riverside.Win32.$value` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.$value)](https://nuget.org/packages/Riverside.Win32.$value) | ``$key.dll`` |"
+        "| ``Riverside.Win32.$value`` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.$value)](https://nuget.org/packages/Riverside.Win32.$value) | <kbd>$key.dll</kbd> |"
     }
     $tableRows = $tableRows -join "`n"
     $readmeContent = @"
@@ -44,6 +44,7 @@ It uses custom PowerShell scripts and MSBuild tasks to build libraries, and is a
 You can then use the packages just as you would with CsWin32, but installing the correct package (relevant to the link library) to get the correct information.
 
 $tableHeader
+| ``Riverside.Win32`` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32)](https://nuget.org/packages/Riverside.Win32) | N/A |
 $tableRows
 "@
 } else {
