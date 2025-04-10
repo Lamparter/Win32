@@ -41,6 +41,27 @@ $dlls = @{
 	"d3d10_1" = "DirectX.Direct3D.10.1";
 	"d3d11" = "DirectX.Direct3D.11";
 	"d3d12" = "DirectX.Direct3D.12";
+	"ws2_32" = "Networking.Sockets";
+	"wininet" = "Networking.Internet";
+	"shlwapi" = "Shell.Lightweight";
+	"comctl32" = "CommonControls";
+	"oleaut32" = "ObjectLinking.Automation";
+	"version" = "Version";
+	"mpr" = "MultipleProviderRouter";
+	"secur32" = "Security";
+	"rpcrt4" = "Rpc";
+	"winmm" = "Multimedia";
+	"imm32" = "InputMethod";
+	"dxgi" = "DirectX.GraphicsInfrastructure";
+	"opengl32" = "Graphics.OpenGL";
+	"glu32" = "Graphics.OpenGLUtility";
+	"dsound" = "DirectX.DirectSound";
+	"dinput8" = "DirectX.DirectInput";
+	"mfplat" = "MediaFoundation.Platform";
+	"mf" = "MediaFoundation";
+	"mfreadwrite" = "MediaFoundation.ReadWrite";
+	"avrt" = "Multimedia.Realtime";
+	"ksuser" = "KernelStreaming";
 }
 
 $solutionName = "Riverside.Win32"
