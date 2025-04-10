@@ -73,6 +73,7 @@ foreach ($dll in $dlls.Keys) {
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
+		<PackageTags>`$(PackageTags); $dll</PackageTags>
 	</PropertyGroup>
 </Project>
 "@
@@ -85,7 +86,7 @@ foreach ($dll in $dlls.Keys) {
 	# NativeMethods.json
 	$nativeMethodsConfigContent = @"
 {
-	"$schema": "https://aka.ms/CsWin32.schema.json",
+	"`$schema": "https://aka.ms/CsWin32.schema.json",
 	"allowMarshaling": false,
 	"public": true,
 	"comInterop": {
@@ -96,6 +97,9 @@ foreach ($dll in $dlls.Keys) {
 }
 "@
 	$nativeMethodsConfigContent | Set-Content -Path $nativeMethodsConfigFile
+
+	# README.md
+	.\WriteReadme.ps1 -LibraryName $projectName -DllName $dll -OutputDirectory $projectDir
 
 	dotnet sln $solutionFile add $projectFile
 }
@@ -123,6 +127,8 @@ $mainCsprojContent = @"
 </Project>
 "@
 $mainCsprojContent | Set-Content -Path $mainProjectFile
+
+.\WriteReadme.ps1 -IsMainProject -OutputDirectory $mainProjectDir
 
 dotnet sln $solutionFile add $mainProjectFile
 
