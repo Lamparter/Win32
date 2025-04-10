@@ -14,7 +14,7 @@ if (-not (Test-Path -Path $OutputDirectory)) {
 # Define the content of the README.md file based on the IsMainProject flag
 if ($IsMainProject) {
     $readmeContent = @"
-# `Riverside.Win32`
+# ``Riverside.Win32``
 
 ---
 
@@ -29,7 +29,7 @@ You can then use the packages just as you would with CsWin32, but installing the
 
 ---
 
-This NuGet package contains Win32 P/Invoke bindings for $DllName.dll.
+This NuGet package contains Win32 P/Invoke bindings for ``$DllName.dll``.
 "@
 }
 
