@@ -33,7 +33,7 @@ jobs:
 
       # Build the solution
       - name: Build solution
-        run: dotnet build src/Riverside.Win32.sln --configuration Release
+        run: dotnet build src/Riverside.Win32.sln --configuration Release -p:ContinuousIntegrationBuild=true
 
       # Pack the solution
       - name: Pack solution
