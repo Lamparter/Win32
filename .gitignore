@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Custom files
-src/
+src/Riverside.Win32*
 
 # User-specific files
 *.rsuser
