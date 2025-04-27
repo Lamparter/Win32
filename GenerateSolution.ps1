@@ -3,10 +3,9 @@ param(
 )
 
 if (Test-Path $WorkingDirectory) {
-    Get-ChildItem -Path $WorkingDirectory | Where-Object {
-        $_.Name -ne 'Riverside.Private.CsWin32'
-		$_.Name -ne 'Riverside.Private.CsWin32.props'
-    } | Remove-Item -Recurse -Force
+	Get-ChildItem -Path $WorkingDirectory | Where-Object {
+		$_.Name -notlike '*Riverside.Private.CsWin32*'
+	} | Remove-Item -Recurse -Force
 }
 
 # Dictionary of DLLs with 'pretty' names
@@ -97,7 +96,7 @@ foreach ($dll in $dlls.Keys) {
 	# Add .csproj content
 	$csprojContent = @"
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="`$(CsWin32LocalTargets) />
+	<Import Project="`$(CsWin32LocalTargets)" />
 	<PropertyGroup>
 		<Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
 		<PackageTags>`$(PackageTags); $dll</PackageTags>
@@ -116,6 +115,7 @@ foreach ($dll in $dlls.Keys) {
 	"`$schema": "..\\Riverside.Private.CsWin32\\src\\Microsoft.Windows.CsWin32\\settings.schema.json",
 	"allowMarshaling": false,
 	"public": true,
+	"namespace": "$projectName",
 	"comInterop": {
 		"preserveSigMethods": [
 			"*"
