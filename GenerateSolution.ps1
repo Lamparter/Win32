@@ -3,7 +3,10 @@ param(
 )
 
 if (Test-Path $WorkingDirectory) {
-	Remove-Item -Path $WorkingDirectory -Recurse -Force
+    Get-ChildItem -Path $WorkingDirectory | Where-Object {
+        $_.Name -ne 'Riverside.Private.CsWin32'
+		$_.Name -ne 'Riverside.Private.CsWin32.props'
+    } | Remove-Item -Recurse -Force
 }
 
 # Dictionary of DLLs with 'pretty' names
@@ -94,6 +97,7 @@ foreach ($dll in $dlls.Keys) {
 	# Add .csproj content
 	$csprojContent = @"
 <Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="`$(CsWin32LocalTargets) />
 	<PropertyGroup>
 		<Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
 		<PackageTags>`$(PackageTags); $dll</PackageTags>
@@ -109,7 +113,7 @@ foreach ($dll in $dlls.Keys) {
 	# NativeMethods.json
 	$nativeMethodsConfigContent = @"
 {
-	"`$schema": "https://aka.ms/CsWin32.schema.json",
+	"`$schema": "..\\Riverside.Private.CsWin32\\src\\Microsoft.Windows.CsWin32\\settings.schema.json",
 	"allowMarshaling": false,
 	"public": true,
 	"comInterop": {
@@ -154,5 +158,9 @@ $mainCsprojContent | Set-Content -Path $mainProjectFile
 .\WriteReadme.ps1 -IsMainProject -OutputDirectory $mainProjectDir
 
 dotnet sln $solutionFile add $mainProjectFile
+
+$CsWin32ProjectDir = Join-Path $WorkingDirectory "Riverside.Private.CsWin32\src\Microsoft.Windows.CsWin32\Microsoft.Windows.CsWin32.csproj"
+
+dotnet sln $solutionFile add $CsWin32ProjectDir
 
 Write-Host "Solution and projects have been successfully created in $WorkingDirectory."
