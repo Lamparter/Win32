@@ -1,0 +1,3 @@
+[submodule "src/Riverside.Private.CsWin32"]
+	path = src/Riverside.Private.CsWin32
+	url = https://github.com/Lamparter/CsWin32
