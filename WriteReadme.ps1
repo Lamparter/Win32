@@ -28,11 +28,17 @@ This library is the successor to the [PInvoke.NET](https://www.nuget.org/package
 "@
 } elseif ($IsGithub -and $DllDictionary) {
     $tableHeader = "| Package | Latest | Associated DLL |`n|--------|--------|--------|"
-    $tableRows = foreach ($key in $DllDictionary.Keys) {
-        $value = $DllDictionary[$key]
+    
+    # Sort by package name
+    $sortedEntries = $DllDictionary.GetEnumerator() | Sort-Object Value
+    
+    $tableRows = foreach ($entry in $sortedEntries) {
+        $key = $entry.Key
+        $value = $entry.Value
         "| ``Riverside.Win32.$value`` | [![NuGet Version](https://img.shields.io/nuget/v/Riverside.Win32.$value)](https://nuget.org/packages/Riverside.Win32.$value) | <kbd>$key.dll</kbd> |"
     }
     $tableRows = $tableRows -join "`n"
+    
     $readmeContent = @"
 # ``Riverside.Win32``
 
