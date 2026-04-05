@@ -82,6 +82,7 @@ foreach ($dll in $dlls.Keys) {
 	$projectFile = Join-Path $projectDir "$projectName.csproj"
 	$nativeMethodsFile = Join-Path $projectDir "NativeMethods.txt"
 	$nativeMethodsConfigFile = Join-Path $projectDir "NativeMethods.json"
+	$targetsFile = Join-Path $projectDir "$projectName.targets"
 
 	if (-not (Test-Path $projectDir)) {
 		New-Item -ItemType Directory -Path $projectDir | Out-Null
@@ -98,6 +99,9 @@ foreach ($dll in $dlls.Keys) {
 		<Description>Win32 P/Invoke ($dll.dll) bindings for .NET Standard</Description>
 		<PackageTags>`$(PackageTags); $dll</PackageTags>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="$projectName.targets" Pack="true" PackagePath="build;buildTransitive" />
+	</ItemGroup>
 </Project>
 "@
 	$csprojContent | Set-Content -Path $projectFile
@@ -121,6 +125,19 @@ foreach ($dll in $dlls.Keys) {
 "@
 	$nativeMethodsConfigContent | Set-Content -Path $nativeMethodsConfigFile
 
+	$targetsContent = @"
+<Project>
+	<Target Name="AddWdkAlias_$dll" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == '$projectName'">
+				<Aliases>$dll</Aliases>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+</Project>
+"@
+	$targetsContent | Set-Content -Path $targetsFile
+
 	# README.md
 	.\WriteReadme.ps1 -LibraryName $projectName -DllName $dll -OutputDirectory $projectDir
 
@@ -128,7 +145,7 @@ foreach ($dll in $dlls.Keys) {
 }
 
 # Create the main Riverside.Win32 project
-$mainProjectName = "Riverside.Win32"
+$mainProjectName = $solutionName
 $mainProjectDir = Join-Path $WorkingDirectory $mainProjectName
 $mainProjectFile = Join-Path $mainProjectDir "$mainProjectName.csproj"
 
@@ -145,7 +162,7 @@ $mainCsprojContent = @"
 		<NoWarn>`$(NoWarn);NU5128</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Riverside.Win32.*\*.csproj" />
+		<ProjectReference Include="..\$solutionName.*\*.csproj" />
 	</ItemGroup>
 </Project>
 "@
