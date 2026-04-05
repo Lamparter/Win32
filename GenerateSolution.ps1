@@ -65,7 +65,7 @@ $dlls = @{
 }
 
 $solutionName = "Riverside.Win32"
-$solutionFile = Join-Path $WorkingDirectory "$solutionName.sln"
+$solutionFile = Join-Path $WorkingDirectory "$solutionName.slnx"
 
 if (-not (Test-Path $WorkingDirectory)) {
 	New-Item -ItemType Directory -Path $WorkingDirectory | Out-Null
