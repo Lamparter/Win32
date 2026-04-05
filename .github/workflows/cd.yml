@@ -17,7 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 10.0.x
 
       # Run GenerateSolution.ps1
       - name: Run GenerateSolution.ps1
@@ -26,15 +26,15 @@ jobs:
 
       # Restore dependencies
       - name: Restore dependencies
-        run: dotnet restore src/Riverside.Win32.sln
+        run: dotnet restore src/Riverside.Win32.slnx
 
       # Build the solution
       - name: Build solution
-        run: dotnet build src/Riverside.Win32.sln --configuration Release -p:ContinuousIntegrationBuild=true
+        run: dotnet build src/Riverside.Win32.slnx --configuration Release -p:ContinuousIntegrationBuild=true
 
       # Pack the solution
       - name: Pack solution
-        run: dotnet pack src/Riverside.Win32.sln --configuration Release --output ./output
+        run: dotnet pack src/Riverside.Win32.slnx --configuration Release --output ./output
 
       # Publish to NuGet
       - name: Publish to NuGet
