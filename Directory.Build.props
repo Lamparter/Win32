@@ -22,7 +22,7 @@
 		<Company>Riverside Valley Corporation</Company>
 
 		<MajorVersion>1</MajorVersion>
-		<MinorVersion>1</MinorVersion>
+		<MinorVersion>2</MinorVersion>
 
 		<AssemblyVersion>$(MajorVersion).$(MinorVersion)</AssemblyVersion>
 
