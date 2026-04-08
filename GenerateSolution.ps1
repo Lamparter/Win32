@@ -9,7 +9,7 @@ if (Test-Path $WorkingDirectory) {
 # Dictionary of DLLs with 'pretty' names
 $dlls = @{
 	"user32" = "UserInterface";
-	"gdi32"	= "Graphics";
+	"gdi32" = "Graphics";
 	"kernel32" = "Kernel";
 	"advapi32" = "Advanced";
 	"shell32" = "Shell";
